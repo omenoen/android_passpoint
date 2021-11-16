@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "HomeSP": {
+      "type": "object",
+      "description": "Home service provider details",
+      "properties": {
+        "FriendlyName": {
+          "type": "string",
+          "description": "The network name that will be displayed"
+        },
+        "FQDN": {
+          "type": "string",
+          "description": "The domain of the network"
+        },
+        "RoamingConsortiumOI": {
+          "type": "string",
+          "description": "The roaming consortium network ID"
+        }
+      },
+      "required": ["FriendlyName", "FQDN"]
+    },
+    "Credential": {
+      "type": "object",
+      "description": "Defines the credentials that will be used for the profile",
+      "properties": {
+        "Realm": {
+          "type": "string",
+          "description": "The domain for the credentials"
+        },
+        "UsernamePassword": {
+          "type": "object",
+          "description": "Username and password (EAP-TTLS) credential",
+          "properties": {
+            "Username": {
+              "type": "string",
+              "description": "The username for the network"
+            },
+            "Password": {
+              "type": "string",
+              "description": "The password for the user"
+            },
+            "EAPMethod": {
+              "type": "object",
+              "description": "Defines the EAP method that will be used",
+              "properties": {
+                "EAPType": {
+                  "type": "string",
+                  "description": "The EAP type used for network typically EAP-TTLS"
+                },
+                "InnerMethod": {
+                  "type": "string",
+                  "description": "The inner method used inside the EAP tunnel"
+                }
+              },
+              "required": ["EAPType", "InnerMethod"]
+            }
+          },
+          "required": ["Username", "Password", "EAPMethod"]
+        },
+        "DigitalCertificate": {
+          "type": "object",
+          "description": "Defines EAP-TLS credential that is used for the network",
+          "properties": {
+            "CertificateType": {
+              "type": "string",
+              "description": "The type of certificate that will be used"
+            },
+            "CertSHA256Fingerprint": {
+              "type": "string",
+              "description": "The fingerprint of the certificate"
+            }
+          },
+          "required": ["CertificateType", "CertSHA256Fingerprint"]
+        },
+        "SIM": {
+          "type": "object",
+          "description": "Defines a SIM based credential",
+          "properties": {
+            "IMSI": {
+              "type": "string",
+              "description": "The international mobile subscriber identity"
+            },
+            "EAPType": {
+              "type": "string",
+              "description": "The EAP type used for network typically EAP-AKA or EAP-SIM"
+            }
+          }
+        }
+      },
+      "oneOf": [
+          {"required": ["Realm", "UsernamePassword"]},
+          {"required": ["Realm", "DigitalCertificate"]},
+          {"required": ["Realm", "SIM"]}
+      ]
+    }
+  },
+  "required": ["HomeSP", "Credential"]
+}
