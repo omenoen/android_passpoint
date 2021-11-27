@@ -107,8 +107,9 @@ def profile_generator():
             {'IMSI': input('What is the international mobile subscriber identity?')})
         profile_data['Credential']['SIM'].update(
             {'Username': str(input('What is the EAP type for the credential?\n' + eap_types))})
-
-    return profile_data
+    file_name = input('Save the profile as?')
+    create_profile(file_name, profile_data)
+    return None
 
 
 def main():
@@ -121,7 +122,11 @@ def main():
                        '3. Start web server\n'
                        '4. Exit\n')
         if choice in [1, "1", "Instructions", "instructions", "help", "Help"]:
-            print('ToDo')
+            print('This is to walk through creating Passpoint profile for Android phones.'
+                  'The first part will ask some questions to help generate a XML for the phone.'
+                  'Next section will start a webserver so the phone can download the profile.'
+                  'On android device go to '
+                  'http://{{ip_address}}:8000/passpoint.config?profile={{profile}}&certificate={{certificate}}')
         elif choice in [2, "2"]:
             profile_generator()
         elif choice in [3, "3"]:

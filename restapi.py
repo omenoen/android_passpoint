@@ -4,7 +4,7 @@ import base64
 import fastapi
 
 import main
-import templates
+import templates.multipart_mixed_template
 import schema.profile
 
 app = fastapi.FastAPI()
