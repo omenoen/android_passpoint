@@ -7,7 +7,7 @@ A lot of other opperating systems have tools that make it easy to generate Hot S
 So, I wanted to create a tool that can do that for Android. I wanted it to be easy to use, but keep the code simple so 
 that it can be used by inexperience developer. <br />
 I followed Google's documentation on how to build a [Passpoint (Hotspot 2.0)](https://source.android.com/devices/tech/connect/wifi-passpoint) 
-profile. The document describes building the configurations for the network in XML and converting it to Base64. It also
+profile, and used some details from this [parser](https://android.googlesource.com/platform/prebuilts/fullsdk/sources/android-29/+/refs/heads/androidx-sqlite-release/android/net/wifi/hotspot2/omadm/PpsMoParser.java). The document describes building the configurations for the network in XML and converting it to Base64. It also
 talks about getting the certificate for the network authenication and having it be in Base64 for also (.cer file). Once
 both pieces of data are in Base64 they will need to be put into a **multipart/mixed** MIME type. The multipart/mixed
 than must be converted to Base64 also. To deliver the Passpoint profile to Android it must be sent from a website using 
@@ -25,4 +25,8 @@ Certificates<br />
 ```/certificates/<certificate>.cer```<br />
 Start web server<br />
 ``` python -m uvicorn --host 0.0.0.0 restapi:app```
-
+## Uploading to Android
+Using chrome navigate to `http://{serverIP}:8000/passpoint.config?profile={profile.xml}&certificate={certificate}` <br />
+This should prompt you to install the profile. If there was any error the Android device will return a generic error.
+## Additional tool
+For examples on using the API navigate to `http://{serverIP}:8000/docs`
